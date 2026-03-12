@@ -63,8 +63,8 @@ export default function Home() {
                   <Image 
                   src="/logo.png"
                   alt="Logo"
-                  width={90}
-                  height={90}
+                  width={150}
+                  height={150}
                   >
                   </Image>
                   <p className="text-xl text-center">ASSEMBLÉIA DE DEUS <br />EL-SHADDAI</p>
