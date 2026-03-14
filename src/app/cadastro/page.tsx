@@ -54,8 +54,7 @@ export default function Home() {
         const data = await res.json();
         console.log(data);
         if (res.ok) {
-            localStorage.setItem("userEmail", email);
-            router.push("/verificar");
+            router.push("/");
         } else {
             if(data?.error) {
                 setErro("Esse email já existe.")
