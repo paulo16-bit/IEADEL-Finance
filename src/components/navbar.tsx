@@ -77,16 +77,18 @@ export default function NavBar() {
 
                                 {/* Navegação Simplificada */}
                                 <div className="px-2 space-y-0.5">
-                                    <Link 
-                                        href={homeHref}
-                                        className="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-gray-700 hover:bg-slate-50 rounded-lg transition-colors"
-                                        onClick={() => setIsMenuOpen(false)}
-                                    >
-                                        <LayoutDashboard className="w-4 h-4 text-gray-400" />
-                                        Dashboard
-                                    </Link>
+                                    {perfil !== "USER" && (
+                                        <Link 
+                                            href={homeHref}
+                                            className="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-gray-700 hover:bg-slate-50 rounded-lg transition-colors"
+                                            onClick={() => setIsMenuOpen(false)}
+                                        >
+                                            <LayoutDashboard className="w-4 h-4 text-gray-400" />
+                                            Dashboard
+                                        </Link>
+                                    )}
                                     
-                                    {perfil !== "SUPER_ADMIN" && (
+                                    {perfil !== "SUPER_ADMIN" && perfil !== "USER" && (
                                         <Link 
                                             href="/homeuser" 
                                             className="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-gray-700 hover:bg-slate-50 rounded-lg transition-colors"

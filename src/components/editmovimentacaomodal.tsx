@@ -27,9 +27,9 @@ export default function EditMovimentacaoModal({ isOpen, onClose, onSuccess, item
     if (item) {
       setDescricao(item.descricao);
       setValor(item.valor.toString());
-      const dateObj = new Date(item.data);
-      const formattedDate = dateObj.toISOString().split('T')[0];
-      setData(formattedDate);
+      // A data vem do banco no formato YYYY-MM-DD agora, mas vamos garantir
+      const dateStr = item.data.includes("T") ? item.data.split("T")[0] : item.data;
+      setData(dateStr);
     }
   }, [item]);
 

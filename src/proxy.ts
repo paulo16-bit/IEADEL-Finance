@@ -11,24 +11,28 @@ interface TokenPayload {
 
 export async function proxy(req: NextRequest) {
   const token = req.cookies.get("token")?.value;
+  const { pathname } = req.nextUrl;
 
+  // Se não houver token, redireciona para a home (login)
   if (!token) {
     return NextResponse.redirect(new URL("/", req.url));
   }
 
   try {
-    const secret = new TextEncoder().encode(process.env.JWT_SECRET);
+    const secret = new TextEncoder().encode(process.env.JWT_SECRET || "");
     const { payload } = await jwtVerify(token, secret);
-    
     const tokenPayload = payload as unknown as TokenPayload;
 
-    // Se for ADMIN, libera só /homeadmin
-    if (req.nextUrl.pathname.startsWith("/homeadmin") && tokenPayload.perfil !== "ADMIN") {
+    // Proteção de rotas por perfil
+    if (pathname.startsWith("/homesuperadmin") && tokenPayload.perfil !== "SUPER_ADMIN") {
       return NextResponse.redirect(new URL("/", req.url));
     }
 
-    // Se for USER ou ADMIN, libera só /homeuser
-    if (req.nextUrl.pathname.startsWith("/homeuser") && tokenPayload.perfil !== "USER" && tokenPayload.perfil !== "ADMIN") {
+    if (pathname.startsWith("/homeadmin") && tokenPayload.perfil !== "ADMIN") {
+      return NextResponse.redirect(new URL("/", req.url));
+    }
+
+    if (pathname.startsWith("/homeuser") && tokenPayload.perfil !== "USER" && tokenPayload.perfil !== "ADMIN") {
       return NextResponse.redirect(new URL("/", req.url));
     }
 
@@ -40,5 +44,14 @@ export async function proxy(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/homeadmin/:path*", "/homeuser/:path*"],
+  matcher: [
+    "/homeadmin/:path*",
+    "/homeuser/:path*",
+    "/homesuperadmin/:path*",
+    "/dizimos/:path*",
+    "/ofertas/:path*",
+    "/despesas/:path*",
+    "/relatorio/:path*",
+    "/perfil/:path*",
+  ],
 };

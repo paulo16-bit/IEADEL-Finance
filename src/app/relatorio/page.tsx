@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import MonthSelector from "@/components/monthselector";
 import NavBar from "@/components/navbar";
 import { parseDateLocal } from "@/utils/date";
@@ -101,6 +101,21 @@ export default function GerarRelatorio() {
   useEffect(() => {
     fetchRelatorioData(mes, ano);
   }, [mes, ano]);
+
+  const dizimosProcessados = useMemo(() => {
+    const agrupados = dizimos.reduce((acc, curr) => {
+      const nome = curr.nomeUsuario || curr.descricao || "NÃO IDENTIFICADO";
+      if (!acc[nome]) {
+        acc[nome] = 0;
+      }
+      acc[nome] += curr.valor;
+      return acc;
+    }, {} as Record<string, number>);
+
+    return Object.entries(agrupados)
+      .map(([nome, valor], index) => ({ id: index, nome, valor }))
+      .sort((a, b) => a.nome.localeCompare(b.nome));
+  }, [dizimos]);
 
   const handlePrint = () => {
     window.print();
@@ -362,15 +377,15 @@ export default function GerarRelatorio() {
               </tr>
             </thead>
             <tbody>
-              {dizimos.map((item, index) => (
+              {dizimosProcessados.map((item, index) => (
                 <tr key={item.id}>
                   <td className="centered">{index + 1}</td>
-                  <td>{item.nomeUsuario || item.descricao}</td>
+                  <td>{item.nome}</td>
                   <td className="right">{formatCurrency(item.valor)}</td>
                 </tr>
               ))}
               {/* Fill with empty rows to reach at least 15 or so, or just let it be dynamic */}
-              {dizimos.length === 0 && (
+              {dizimosProcessados.length === 0 && (
                 <tr>
                   <td colSpan={3} className="centered italic py-4 text-gray-400">Nenhum dízimo registrado neste mês.</td>
                 </tr>
