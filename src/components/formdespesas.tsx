@@ -33,7 +33,7 @@ export default function DespesaModal({ onSuccess }: DespesaModalProps) {
 
     if (res.ok) {
         setValor("");
-        setData("");
+        setData(hoje);
         setDescricao("");
         setIsOpen(false);
         if (onSuccess) onSuccess();
@@ -56,12 +56,12 @@ export default function DespesaModal({ onSuccess }: DespesaModalProps) {
           <div className="bg-white rounded-lg shadow-xl p-6 w-96 relative">
             <h2 className="text-xl font-bold mb-4">Nova despesa</h2>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit}>
                 <textarea
                   value={descricao}
                   onChange={(e) => setDescricao(e.target.value)}
                   placeholder="Descreva o motivo da despesa"
-                  className="border p-2 w-full resize-none"
+                  className="border p-2 w-full resize-none mb-2"
                   rows={2}
                 />
 
@@ -72,14 +72,14 @@ export default function DespesaModal({ onSuccess }: DespesaModalProps) {
                 step="0.01"
                 placeholder="R$ 0,00"
                 onChange={(e) => setValor(e.target.value)}
-                className="border p-2 w-full"
+                className="border p-2 w-full mb-3"
               />
 
               <input
                 type="date"
                 value={data}
                 onChange={(e) => setData(e.target.value)}
-                className="border p-2 w-full"
+                className="border p-2 w-full mb-3"
               />
 
               <div className="flex justify-end gap-2">

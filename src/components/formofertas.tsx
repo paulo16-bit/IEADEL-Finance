@@ -33,7 +33,7 @@ export default function OfertaModal({ onSuccess }: OfertaModalProps) {
 
     if (res.ok) {
         setValor("");
-        setData("");
+        setData(hoje);
         setDescricao("");
         setIsOpen(false);
         if (onSuccess) onSuccess();
@@ -56,12 +56,12 @@ export default function OfertaModal({ onSuccess }: OfertaModalProps) {
           <div className="bg-white rounded-lg shadow-xl p-6 w-96 relative">
             <h2 className="text-xl font-bold mb-4">Nova oferta</h2>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit}>
                 <textarea
                 value={descricao}
                 placeholder="Digite a descrição"
                 onChange={(e) => setDescricao(e.target.value)}
-                className="border p-2 w-full"
+                className="border p-2 w-full mb-2"
                 rows={2}
               />
 
@@ -72,14 +72,14 @@ export default function OfertaModal({ onSuccess }: OfertaModalProps) {
                 step="0.01"
                 placeholder="R$ 0,00"
                 onChange={(e) => setValor(e.target.value)}
-                className="border p-2 w-full"
+                className="border p-2 w-full mb-3"
               />
 
               <input
                 type="date"
                 value={data}
                 onChange={(e) => setData(e.target.value)}
-                className="border p-2 w-full"
+                className="border p-2 w-full mb-3"
               />
 
               <div className="flex justify-end gap-2">

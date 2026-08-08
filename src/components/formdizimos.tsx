@@ -91,7 +91,7 @@ export default function DizimoModal({ onSuccess }: DizimoModalProps) {
                   value={descricao}
                   onChange={handleChange}
                   placeholder="Nome da pessoa"
-                  className="border p-2 w-full"
+                  className="border p-2 w-full mb-3"
                   required
                 />
                 {sugestoes.length > 0 && (
@@ -124,7 +124,7 @@ export default function DizimoModal({ onSuccess }: DizimoModalProps) {
                 type="date"
                 value={data}
                 onChange={(e) => setData(e.target.value)}
-                className="border p-2 w-full"
+                className="border p-2 w-full mb-3"
                 required
               />
 
