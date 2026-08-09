@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatório Mensal</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f0f0;
+            color: #333;
+        }
+        
+        /* =========================
+           RELATÓRIO
+        ========================= */
+
+        .report-container {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f0f0;
+            color: #333;
+            padding: 20px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .page {
+            width: 21cm;
+            min-height: 29.7cm;
+            padding: 1.5cm;
+            margin: 1cm auto;
+            background: white;
+            box-shadow:
+                0 4px 6px -1px rgba(0, 0, 0, 0.1),
+                0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            box-sizing: border-box;
+        }
+
+        h1,
+        h2 {
+            text-align: center;
+            margin: 0 0 5px 0;
+            font-size: 14pt;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        h3 {
+            text-align: center;
+            margin: 0 0 20px 0;
+            font-size: 12pt;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        table,
+        th,
+        td {
+            border: 1.5px solid black;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            padding: 8px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 11pt;
+            text-transform: uppercase;
+        }
+
+        td {
+            padding: 8px;
+            font-size: 10.5pt;
+        }
+
+        .centered {
+            text-align: center;
+        }
+
+        .right {
+            text-align: right;
+        }
+
+        .bold {
+            font-weight: bold;
+        }
+
+        .total-row {
+            background-color: #f9f9f9;
+            font-weight: bold;
+        }
+
+        .saldo-geral-box {
+            border: 2px solid black;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+            font-size: 13pt;
+            margin-top: 20px;
+        }
+
+        .footer-date {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 10pt;
+        }
+
+        .col-sq {
+            width: 40px;
+            text-align: center;
+        }
+
+        .col-val {
+            width: 120px;
+            text-align: right;
+        }
+
+        .col-desc {
+            text-align: left;
+        }
+        .box{
+            margin-top: 50px;
+            border: 1px solid #000000;
+            padding: 0 20px;
+            text-align: center;
+            width: 300px;
+        }
+        .line{
+            border-top: 1px solid #000;
+            margin-top: 50px;
+        }
+        .conselho-fiscal{
+            margin-top: 50px;
+            width: 60%;
+            
+        }
+        .conselho-fiscal tr td{
+            height: 30px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        /* =========================
+           RESPONSIVIDADE
+        ========================= */
+
+        @media screen and (max-width: 21cm) {
+
+            .report-container {
+                padding: 10px 5px;
+            }
+
+            .page {
+                width: 100%;
+                max-width: 98vw;
+                min-height: auto;
+                padding: 5vw;
+                margin: 10px auto;
+            }
+
+            h1,
+            h2 {
+                font-size: 3.5vw;
+            }
+
+            h3 {
+                font-size: 3vw;
+            }
+
+            th {
+                font-size: 2.5vw;
+                padding: 1.5vw;
+            }
+
+            td {
+                font-size: 2.2vw;
+                padding: 1.5vw;
+            }
+
+            .saldo-geral-box {
+                font-size: 3.5vw;
+                padding: 2.5vw;
+            }
+
+            .footer-date {
+                font-size: 2.5vw;
+            }
+
+            .col-val {
+                width: 20%;
+            }
+
+            .col-sq {
+                width: 8%;
+            }
+
+            .navbar {
+                padding: 0 15px;
+            }
+
+            .navbar a {
+                display: none;
+            }
+
+            .month-selector {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+
+        /* =========================
+           IMPRESSÃO
+        ========================= */
+
+        @page {
+            size: A4;
+            margin: 1cm;
+        }
+
+        @media print {
+
+            .no-print {
+                display: none !important;
+            }
+
+            body {
+                background-color: white !important;
+            }
+
+            .report-container {
+                background-color: white !important;
+                padding: 0 !important;
+            }
+
+            .page {
+                width: 100%;
+                min-height: 29.7cm;
+                padding: 1cm;
+                margin: 0;
+                box-shadow: none !important;
+                page-break-after: always;
+            }
+
+            .page:last-child {
+                page-break-after: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- =========================
+         RELATÓRIO
+    ========================== -->
+
+    <div class="report-container">
+
+        <!-- =========================
+             PÁGINA 1 - RECEITA
+        ========================== -->
+
+        <div class="page">
+
+            <h1>
+                IGREJA EVANGÉLICA ASSEMBLEIA DE DEUS
+                <span id="nomeCongregacao">CARREGANDO...</span>
+            </h1>
+
+            <h3 id="tituloReceita">
+                RECEITA MÊS: AGOSTO 2026
+            </h3>
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th style="width: 60%;">
+                            DESCRIÇÃO
+                        </th>
+
+                        <th style="width: 40%;">
+                            VALORES
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <tr>
+                        <td class="bold">
+                            1 &nbsp;&nbsp;&nbsp;&nbsp;
+                            TOTAL ENTRADA DÍZIMOS
+                        </td>
+
+                        <td
+                            id="totalDizimo"
+                            class="right bold"
+                        >
+                            0,00
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="bold">
+                            2 &nbsp;&nbsp;&nbsp;&nbsp;
+                            TOTAL ENTRADA OFERTAS
+                        </td>
+
+                        <td
+                            id="totalOferta"
+                            class="right bold"
+                        >
+                            0,00
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="bold">
+                            3 &nbsp;&nbsp;&nbsp;&nbsp;
+                            TOTAL ENTRADAS (1 + 2)
+                        </td>
+
+                        <td
+                            id="totalEntradas"
+                            class="right bold"
+                        >
+                            0,00
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="bold">
+                            4 &nbsp;&nbsp;&nbsp;&nbsp;
+                            TOTAL SAÍDAS
+                        </td>
+
+                        <td
+                            id="totalDespesa"
+                            class="right bold"
+                        >
+                            0,00
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+            <div class="saldo-geral-box">
+
+                <span>
+                    TOTAL ARRECADADO (3 - 4)
+                </span>
+
+                <span id="saldoGeral">
+                    0,00
+                </span>
+
+            </div>
+
+            <div class="box">
+                <div class="line"></div>
+                <p>Pastor Local</p>
+            </div>
+            <div class="conselho-fiscal">
+                <h3>Conselho fiscal assinaturas</h3>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td width="10%">1</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="footer-date">
+                    São José de Ribamar, 00/00/2026
+                    <span id="dataAtual"></span>
+                </div>
+            </div>
+            
+
+            
+
+        </div>
+
+
+
+        <!-- =========================
+             PÁGINA 2 - DÍZIMOS
+        ========================== -->
+
+        <div class="page">
+
+            <h1>
+                IGREJA EVANGÉLICA ASSEMBLEIA DE DEUS
+                <span class="nome-congregacao"></span>
+            </h1>
+
+            <h3 id="tituloDizimos">
+                DÍZIMOS
+            </h3>
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th class="col-sq">
+                            Sq.
+                        </th>
+
+                        <th>
+                            Nome dos Dizimistas
+                        </th>
+
+                        <th class="col-val">
+                            Valor
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="tabelaDizimos">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        <!-- =========================
+             PÁGINA 3 - OFERTAS
+        ========================== -->
+
+        <div class="page">
+
+            <h1>
+                IGREJA EVANGÉLICA ASSEMBLEIA DE DEUS
+                <span class="nome-congregacao"></span>
+            </h1>
+
+            <h3 id="tituloOfertas">
+                OFERTAS
+            </h3>
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th class="col-sq">
+                            Sq.
+                        </th>
+
+                        <th>
+                            Origem das Ofertas
+                        </th>
+
+                        <th class="col-val">
+                            Valor
+                        </th>
+
+                        <th>
+                            Observações
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="tabelaOfertas">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        <!-- =========================
+             PÁGINA 4 - SAÍDAS
+        ========================== -->
+
+        <div class="page">
+
+            <h1>
+                IGREJA EVANGÉLICA ASSEMBLEIA DE DEUS
+                <span class="nome-congregacao"></span>
+            </h1>
+
+            <h3 id="tituloDespesas">
+                SAÍDAS
+            </h3>
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th style="width: 40px;">
+                            Sq.
+                        </th>
+
+                        <th>
+                            Descrições dos pagamentos
+                        </th>
+
+                        <th style="width: 100px;">
+                            Data
+                        </th>
+
+                        <th style="width: 120px;">
+                            Valor
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="tabelaDespesas">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+</body>
+</html>

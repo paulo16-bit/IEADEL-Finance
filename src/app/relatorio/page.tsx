@@ -204,6 +204,10 @@ export default function GerarRelatorio() {
             .signature-line { width: 70% !important; }
             .col-val { width: 20% !important; }
             .col-sq { width: 8% !important; }
+            .box { width: 60% !important; margin-top: 30px !important; }
+            .box .line {margin-top: 8vw !important;}
+            .box p {font-size: 2.2vw !important;}
+            .conselho-fiscal { width: 80% !important; margin-top: 30px !important; }
           }
 
           @media screen {
@@ -315,6 +319,30 @@ export default function GerarRelatorio() {
             font-size: 13pt;
             margin-top: 20px;
           }
+
+          .box {
+            margin-top: 50px;
+            border: 1px solid #000000;
+            padding: 0 20px;
+            text-align: center;
+            width: 300px;
+          }
+
+          .line {
+            border-top: 1px solid #000;
+            margin-top: 50px;
+          }
+
+          .conselho-fiscal {
+            margin-top: 50px;
+            width: 60%;
+          }
+
+          .conselho-fiscal tr td {
+            height: 30px;
+            text-align: center;
+            font-weight: bold;
+          }
         ` }} />
 
         {/* PAGE 1: RECEITA */}
@@ -358,8 +386,40 @@ export default function GerarRelatorio() {
             <span>{formatCurrency(saldoGeral)}</span>
           </div>
 
-          <div className="footer-date">
-            São José de Ribamar, {new Date().toLocaleDateString("pt-BR")}
+          <div className="box">
+            <div className="line"></div>
+            <p>Pastor Local</p>
+          </div>
+
+          <div className="conselho-fiscal">
+            <h3>Conselho fiscal assinaturas</h3>
+            <table>
+              <tbody>
+                <tr>
+                  <td style={{ width: "10%" }}>1</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>3</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>4</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>5</td>
+                  <td></td>
+                </tr>
+              </tbody>
+            </table>
+            <div className="footer-date">
+              São José de Ribamar, {new Date().toLocaleDateString("pt-BR")}
+            </div>
           </div>
         </div>
 
